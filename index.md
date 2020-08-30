@@ -1,37 +1,18 @@
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/diptivm/robot-ball-chaser/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/diptivm/robot-ball-chaser/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+﻿# robot-ball-chaser
+## Summary
+Application running on ros and gazebo for a mobile robot chasing a white ball in its field of view in a given indoor enviornment. Uses RGB camera to detect the ball's approximate location within its field of view, assuming the ball is the only white object in the robot's surrounding. 
+## Implementation
+1. Gazebo world models an indoor enviornment with a white ball and spawns a differential drive robot equipped with a LIDAR and RGB camera. 
+2. The camera's field of view is scanned for white pixels, and the robot is driven left, straight or right depending on the location of the first white pixel detected in the image. 
+2. Low-level control of the mobile robot is achieved through a Gazebo plugin for differential drives. 
+## Usage
+1. Place the ball_chaser and my_robot folders within an src folder in your project directory. 
+2. Run <code> catkin_make </code> in the project directory to make this your catkin workspace.
+3. After the packages have compiled separately, setup the environment variables by running <code> source devel/setup.bash </code> and launch the gazebo world and the ball_chaser application using:
+<code> roslaunch my_robot world.launch </code>
+<code> roslaunch ball_chaser ball_chaser.launch </code>
+4. To visualize the robot's camera stream, launch <code> rqt_image_view </code> and visualize the topic /camera/rgb_camera/image_raw.
+5. Move the ball within the robot's field of view and verify that the robot moves to track the ball location within its field of view.
+## Improvements
+1. The first white pixel in the image is used to estimate the approximate location of the ball. For better tracking of the ball, one can apply a color filter on the image and then detect a circular contour, and drive the robot towards the center of this contour.
+2. Allowing other white objects in the background and discerning the ball from them.
