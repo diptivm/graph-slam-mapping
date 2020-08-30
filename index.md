@@ -2,7 +2,10 @@
 ## Summary
 Application running on ros and gazebo for a mobile robot chasing a white ball in its field of view in a given indoor enviornment. Uses RGB camera to detect the ball's approximate location within its field of view, assuming the ball is the only white object in the robot's surrounding. 
 ## Video 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/SufdCHqg5-w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<figure class="video_container">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/SufdCHqg5-w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</figure>
+
 ## Implementation
 1. Gazebo world models an indoor enviornment with a white ball and spawns a differential drive robot equipped with a LIDAR and RGB camera. 
 2. The camera's field of view is scanned for white pixels, and the robot is driven left, straight or right depending on the location of the first white pixel detected in the image. 
