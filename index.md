@@ -1,21 +1,25 @@
-﻿# robot-ball-chaser
+﻿# robot-ball-chaser-loc
 ## Summary
-Application running on ros and gazebo for a mobile robot chasing a white ball in its field of view in a given indoor enviornment. Uses RGB camera to detect the ball's approximate location within its field of view, assuming the ball is the only white object in the robot's surrounding. 
-## Video 
-[![Ball Chaser](http://img.youtube.com/vi/SufdCHqg5-w/0.jpg)](https://www.youtube.com/watch?v=SufdCHqg5-w
- "Ball Chaser Video")
+Application running on ros and gazebo for a mobile robot localizing in a given indoor environment and navigating autonomously to an input goal position. Assumes fixed map and initial pose.  
+
 ## Implementation
-1. Gazebo world models an indoor enviornment with a white ball and spawns a differential drive robot equipped with a LIDAR and RGB camera. 
-2. The camera's field of view is scanned for white pixels, and the robot is driven left, straight or right depending on the location of the first white pixel detected in the image. 
-2. Low-level control of the mobile robot is achieved through a Gazebo plugin for differential drives. 
+1. Gazebo world models an indoor enviornment and spawns a differential drive robot equipped with a 2D LIDAR and RGB camera. 
+2. The ROS map_server publishes a 2D map of the environment, created in advance using the pgm-map-creator package. 
+3. The LIDAR scan data is used for localization based on the adaptive Monte-Carlo localization method (AMCL), implemented in the ROS amcl node.
+4. The ROS move_base node is invoked for path planning to the specified goal location.
 ## Usage
-1. Place the ball_chaser and my_robot folders within an src folder in your project directory. 
-2. Run <code> catkin_make </code> in the project directory to make this your catkin workspace.
-3. After the packages have compiled separately, setup the environment variables by running <code> source devel/setup.bash </code> and launch the gazebo world and the ball_chaser application using:
+1. Launch the gazebo world and the localization/ navigation application using:
 <code> roslaunch my_robot world.launch </code>
-<code> roslaunch ball_chaser ball_chaser.launch </code>
-4. To visualize the robot's camera stream, launch <code> rqt_image_view </code> and visualize the topic /camera/rgb_camera/image_raw.
-5. Move the ball within the robot's field of view and verify that the robot moves to track the ball location within its field of view.
+<code> roslaunch my_robot amcl.launch </code>
+2. Verify that the initial pose of the robot is correct, and specify a goal poition on RViz. 
 ## Improvements
-1. The first white pixel in the image is used to estimate the approximate location of the ball. For better tracking of the ball, one can apply a color filter on the image and then detect a circular contour, and drive the robot towards the center of this contour.
-2. Allowing other white objects in the background and discerning the ball from them.
+The localization/ navigation application can be further tuned for the given indoor environment by experimenting with parameters of the amcl and move_base nodes. 
+Some parameters that have been experimented with:
+### AMCL node
+1. odom_alpha_1-4: These quantify the noise in the odometry measurements and in this case have been reduced to allow greater trust in the odomotery readings. 
+2. laser_max_beams: was initially increased to allow better localization, but was subsequently returned to its default value as no significant improvement was observed.
+### Move_base node
+1. pdist_scale: this quantifies the weighting for how close the robot should stay to the (globally planned) path it was given, and as reduced due to the small size of this room (and hence, preference to not deviate too much towards the walls). 
+2. gdist_scale: given that pdist_scale was reduced, this was left at the default value, as increasing it made it difficult to recover from a stuck position.
+
+
