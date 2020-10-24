@@ -14,7 +14,7 @@
   </include>
 
   <include file="$(find my_robot)/launch/robot_description.launch">
-    <arg name="x" value= "0"/>
+    <arg name="x" value= "-1.5"/>
     <arg name="y" value="0" />
     <arg name="z" value="0" />
     <arg name="roll" value="0" />
