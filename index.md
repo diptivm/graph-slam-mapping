@@ -1,7 +1,7 @@
 ﻿# robot-ball-chaser-loc
 ## Summary
 Application running on ros and gazebo for a mobile robot localizing in a given indoor environment and navigating autonomously to an input goal position. Assumes fixed map and initial pose.  
-
+![Localization screenshot](https://github.com/diptivm/robot-ball-chaser-loc/blob/gh-pages/Localization_screenshot.png?raw=true)
 ## Implementation
 1. Gazebo world models an indoor enviornment and spawns a differential drive robot equipped with a 2D LIDAR and RGB camera. 
 2. The ROS map_server publishes a 2D map of the environment, created in advance using the pgm-map-creator package. 
