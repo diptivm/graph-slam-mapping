@@ -13,7 +13,9 @@ Application running on ros and gazebo for a mobile robot equipped with a laser s
 <code> roslaunch my_robot amcl.launch </code>
 2. Verify that the initial pose of the robot is correct, and specify a goal poition on RViz. 
 ## Sample database
-https://drive.google.com/file/d/1bPP1X1Cie6FZdJNz_8ChCedKvi4QiPqX/view
+https://drive.google.com/file/d/1bPP1X1Cie6FZdJNz_8ChCedKvi4QiPqX/view?usp=sharing
+
+
 
 
 
